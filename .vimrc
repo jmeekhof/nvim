@@ -14,17 +14,17 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 "Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
 
 " Using a non-master branch
-"lug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
+"Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
 " Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-"lug 'fatih/vim-go', { 'tag': '*' }
+"Plug 'fatih/vim-go', { 'tag': '*' }
 " Plugin options
-"lug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
+"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 
 " Plugin outside ~/.vim/plugged with post-update hook
-"lug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Unmanaged plugin (manually installed and updated)
-"lug '~/my-prototype-plugin'
+"Plug '~/my-prototype-plugin'
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'altercation/vim-colors-solarized'
