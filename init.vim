@@ -25,6 +25,8 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 "Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Unmanaged plugin (manually installed and updated)
 "Plug '~/my-prototype-plugin'
+"
+Plug 'kiteco/plugins', { 'branch': 'just_plugins', 'rtp': 'vim-kite/plugin'}
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'altercation/vim-colors-solarized'
@@ -49,6 +51,6 @@ set showmatch
 set background=light
 set ts=4
 set sw=4
-
+set expandtab
 filetype on
 au BufNewFile,BufRead *.sjs set filetype=javascript
