@@ -30,7 +30,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'  
 Plug 'gregsexton/gitv' 
-Plug 'idanarye/vim-merginal'
+Plug 'idanarye/vim-merginal', { 'branch': 'develop' }
 Plug 'jeroenp/vim-xquery-syntax'
 
 Plug 'bling/vim-airline' 
@@ -47,3 +47,8 @@ set ignorecase
 set gdefault
 set showmatch
 set background=light
+set ts=4
+set sw=4
+
+filetype on
+au BufNewFile,BufRead *.sjs set filetype=javascript
