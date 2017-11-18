@@ -52,5 +52,6 @@ set background=light
 set ts=4
 set sw=4
 set expandtab
+set colorcolumn=80
 filetype on
 au BufNewFile,BufRead *.sjs set filetype=javascript
