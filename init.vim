@@ -28,6 +28,7 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 "
 "Plug 'sheerun/vim-polyglot'
 
+Plug 'tmux-plugins/vim-tmux'
 Plug 'udalov/kotlin-vim'
 Plug 'tfnico/vim-gradle'
 Plug '~/potion-vim'
