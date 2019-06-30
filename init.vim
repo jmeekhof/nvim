@@ -28,6 +28,14 @@ Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 "
 "Plug 'sheerun/vim-polyglot'
 
+" Plug 'Shougo/vimproc'
+" Plug 'bitc/vim-hdevtools'
+" Plug 'eagletmt/ghcmod-vim'
+Plug 'neovimhaskell/haskell-vim'
+Plug 'alx741/vim-hindent'
+Plug 'w0rp/ale'
+Plug 'parsonsmatt/intero-neovim'
+"
 Plug 'tmux-plugins/vim-tmux'
 Plug 'udalov/kotlin-vim'
 Plug 'tfnico/vim-gradle'
@@ -110,3 +118,85 @@ vnoremap <F4> :g/^\(.*\)\n\1$/d<CR>
 vnoremap <F5> d:execute 'normal a' . split(getreg('"'))<CR>
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
+
+" ----- Haskell setup haskell-vim -----
+let g:haskell_indent_if = 2
+let g:haskell_indent_before_where = 2
+let g:haskell_indent_case_alternatives = 1
+let g:haskell_indent_let_no_in = 0
+
+" ----- Haskell stylish-haskell
+let g:hindent_on_save = 0
+
+" Helper function, called below with mappings
+function! HaskellFormat(which) abort
+  if a:which ==# 'hindent' || a:which ==# 'both'
+    :Hindent
+  endif
+  if a:which ==# 'stylish' || a:which ==# 'both'
+    silent! exe 'undojoin'
+    silent! exe 'keepjumps %!stylish-haskell'
+  endif
+endfunction
+
+" Key bindings
+augroup haskellStylish
+  au!
+  " Just hindent
+  au FileType haskell nnoremap <leader>hi :Hindent<CR>
+  " Just stylish-haskell
+  au FileType haskell nnoremap <leader>hs :call HaskellFormat('stylish')<CR>
+  " First hindent, then stylish-haskell
+  au FileType haskell nnoremap <leader>hf :call HaskellFormat('both')<CR>
+augroup END
+
+" ----- Haskell ALE setup -----
+" let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint']
+" ALE setup
+let g:ale_haskell_hlint_executable = 'hlint'
+let g:ale_haskell_ghc_mod_executable = 'ghc-mod'
+" ----- parsonsmatt/intero-neovim -----
+
+" Prefer starting Intero manually (faster startup times)
+let g:intero_start_immediately = 0
+" Use ALE (works even when not using Intero)
+let g:intero_use_neomake = 0
+
+augroup interoMaps
+  au!
+
+  au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
+  au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
+  au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
+  au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
+  au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
+
+  au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
+  au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
+  au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
+
+  au FileType haskell map <leader>t <Plug>InteroGenericType
+  au FileType haskell map <leader>T <Plug>InteroType
+  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+
+  au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
+  au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
+  au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
+augroup END
+let g:ale_fixers = {
+            \ 'kotlin': ['ktlint']
+            \}
+let g:ale_kotlin_ktlint_executable = 'ktlint'
+let g:ale_linters = {
+            \ 'haskell':  ['stack-ghc-mod', 'hlint']
+            \}
+
+let g:github_dashboard = { 'username': 'jmeekhof', 'password': $GITHUB_TOKEN }
+
+" Profile for GHE at work
+let g:github_dashboard#work = {
+    \ 'username': 'jmeekhof',
+    \ 'password': $GHE_TOKEN,
+    \ 'api_endpoint': $GHE_API,
+    \ 'web_endpoint': $GHE_WEB
+    \ }
