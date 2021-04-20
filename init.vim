@@ -1,202 +1,319 @@
-call plug#begin('~/.vim/plugged')
 
-" Make sure you use single quotes
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-Plug 'junegunn/vim-easy-align'
+call plug#begin(stdpath('data') . '/plugged')
 
-" Any valid git URL is allowed
-Plug 'https://github.com/junegunn/vim-github-dashboard.git'
-" Group dependencies, vim-snippets depends on ultisnips
-" Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
-
-" On-demand loading
-"Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-"Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
-" Using a non-master branch
-"Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-
-" Using a tagged release; wildcard allowed (requires git 1.9.2 or above)
-"Plug 'fatih/vim-go', { 'tag': '*' }
-" Plugin options
-"Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-
-" Plugin outside ~/.vim/plugged with post-update hook
-"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Unmanaged plugin (manually installed and updated)
-"Plug '~/my-prototype-plugin'
-"
-"Plug 'sheerun/vim-polyglot'
-
-" Plug 'Shougo/vimproc'
-" Plug 'bitc/vim-hdevtools'
-" Plug 'eagletmt/ghcmod-vim'
-Plug 'neovimhaskell/haskell-vim'
-Plug 'alx741/vim-hindent'
-Plug 'w0rp/ale'
-Plug 'parsonsmatt/intero-neovim'
-"
-Plug 'tmux-plugins/vim-tmux'
-Plug 'udalov/kotlin-vim'
-Plug 'tfnico/vim-gradle'
-Plug '~/potion-vim'
-Plug '~/gsql-vim'
-"Plug '~/vim-gradle-0.1'
-"Plug 'https://bitbucket.org/sw-samuraj/vim-gradle'
-Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
-Plug 'neo4j-contrib/cypher-vim-syntax'
-Plug 'diepm/vim-rest-console'
+" Editor niceties
 Plug 'editorconfig/editorconfig-vim'
-Plug 'altercation/vim-colors-solarized'
-Plug 'tpope/vim-fugitive'
-Plug 'gregsexton/gitv'
-Plug 'idanarye/vim-merginal', { 'branch': 'develop' }
-Plug 'airblade/vim-gitgutter'
-" Plug 'jeroenp/vim-xquery-syntax'
-
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-Plug '/usr/local/opt/fzf'
+" Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'jremmen/vim-ripgrep'
-Plug 'lervag/vimtex'
-Plug 'mattn/webapi-vim'
-" Add plugins to &runtimepath
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+
+" Git niceties 
+" Plug 'airblade/vim-gitgutter'
+Plug 'gregsexton/gitv'
+Plug 'junegunn/vim-github-dashboard'
+Plug 'idanarye/vim-merginal', { 'branch': 'develop' }
+Plug 'tpope/vim-fugitive'
+
+" Color Schemes
+Plug 'altercation/vim-colors-solarized'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
+
+" LSP + linters + IDE
+" Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'majutsushi/tagbar'
+" Plug 'w0rp/ale'
+
+" Terminal, shell plugins
+Plug 'dag/vim-fish'
+Plug 'tmux-plugins/vim-tmux'
+
+" Language Plugins
+"" Go
+Plug 'fatih/vim-go', {'do': ':GoUpdateBinaries'}
+Plug 'josa42/coc-go', {'do': 'yarn install --frozen-lockfile'}
+
+"" Haskell
+Plug 'nbouscal/vim-stylish-haskell'
+
+"" NGINX
+Plug 'chr4/nginx.vim'
+
+"" PHP
+Plug 'beanworks/vim-phpfmt'
+"" jsx / typescript
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+Plug 'jparise/vim-graphql'
+
 call plug#end()
 
+" Use the system install fzf
+set rtp+=/usr/local/opt/fzf
+set rtp+=~/.fzf
+
 colorscheme solarized
-set number
+set number relativenumber
 set ai
 set nowrap
 set ignorecase
 set gdefault
 set showmatch
 set background=dark
-set ts=4
-set sw=4
-set expandtab
 set colorcolumn=80
-set updatetime=100
-filetype on
-au BufNewFile,BufRead *.sjs set filetype=javascript
+set updatetime=300
+set wildignore=bazel-*/**,.git/**,node_modules/**
 
-"VRC Settings
+highlight Normal ctermfg=11 ctermbg=None
+highlight VertSplit cterm=None ctermfg=12 ctermbg=None
+highlight StatusLine cterm=underline ctermfg=12 ctermbg=None
+highlight StatusLineNC cterm=underline ctermfg=12 ctermbg=None
+highlight LineNr ctermfg=12 ctermbg=None
+highlight LineNrAbove ctermfg=12 ctermbg=None
+highlight LineNrBelow ctermfg=12 ctermbg=None
+highlight CursorLineNr ctermfg=12 ctermbg=None
+highlight FoldColumn ctermfg=12 ctermbg=None
+highlight SignColumn ctermfg=12 ctermbg=None
+highlight Folded cterm=bold ctermfg=2 ctermbg=None
 
-let g:vrc_response_default_content_type = 'application/json'
+" Minimal statusline. File path horizontal space line number of lines
+set statusline=..\ %F\ ..
+set statusline+=%=
+set statusline+=..\ %l/%L\ ..
+ 
+set cursorline
+autocmd WinEnter,BufEnter,BufWinEnter * set cursorline
+autocmd WinLeave,BufLeave,BufWinLeave * set nocursorline
+highlight CursorLine cterm=None ctermbg=0
 
-let g:vrc_auto_format_response_patterns = {
-    \ 'json': 'jq "."',
-    \ 'xml': 'xmllint --format -'
-    \}
-let g:vrc_curl_opts = {
-    \ '--connect-timeout' : 10,
-    \ '-b': '~/.curl/cookiejar/cookie.txt',
-    \ '-c': '~/.curl/cookiejar/cookie.txt',
-    \ '-sSL': '',
-    \ '--max-time': 60,
-    \ '--ipv4': '',
-    \ '-k': '',
-    \'--netrc-optional': '',
-    \}
+" COC setup
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-"NetRW Settings
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-"let g:netrw_winsize = 25
-"let g:netrw_browse_split = 4
-"let g:netrw_altv = 1
-"augroup ProjectDrawer
-"    autocmd!
-"    autocmd VimEnter * :Vexplore
-"augroup END
-"
-" Sort a _line_
-vnoremap <F2> d:execute 'normal a' . join(sort(split(getreg('"'))), ' ')<CR>
-vnoremap <F3> :sort<CR>
-vnoremap <F4> :g/^\(.*\)\n\1$/d<CR>
-vnoremap <F5> d:execute 'normal a' . split(getreg('"'))<CR>
+" A little of line number magic
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
+" Root Pattern setup for COC
+autocmd FileType typescriptreact let b:coc_root_patterns = ['package.json','yarn.lock']
+
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+" augroup ReactFiletypes
+  " autocmd!
+  " autocmd BufRead,BufNewFile *.jsx set filetype=javascriptreact
+  " autocmd BufRead,BufNewFile *.tsx set filetype=typescriptreact
+" augroup END
+
+" Airline setup
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled = 1
 
-" ----- Haskell setup haskell-vim -----
-let g:haskell_indent_if = 2
-let g:haskell_indent_before_where = 2
-let g:haskell_indent_case_alternatives = 1
-let g:haskell_indent_let_no_in = 0
+" Python setup
+let g:python_host_prog = '/Users/jmeekho/.pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = '/Users/jmeekho/.pyenv/versions/neovim3/bin/python'
 
-" ----- Haskell stylish-haskell
-let g:hindent_on_save = 0
+" FZF Setup
+" Within the fzf window, open the file in a new tab
+" horizontal split
+" vertical split
+let g:fzf_action = {
+      \ 'ctrl-t': 'tab split', 
+      \ 'ctrl-x': 'split',     
+      \ 'ctrl-v': 'vsplit'     
+      \ }
+let g:fzf_history_dir =  '~/.local/data/fzf-history'
 
-" Helper function, called below with mappings
-function! HaskellFormat(which) abort
-  if a:which ==# 'hindent' || a:which ==# 'both'
-    :Hindent
-  endif
-  if a:which ==# 'stylish' || a:which ==# 'both'
-    silent! exe 'undojoin'
-    silent! exe 'keepjumps %!stylish-haskell'
+" Tagbar Setup
+map <C-a> :TagbarToggle<CR>
+
+
+" COC TSX setup
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+" if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  " let g:coc_global_extensions += ['coc-eslint']
+"endif
+
+
+" TextEdit might fail if hidden is not set.
+set hidden
+
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+" Give more space for displaying messages.
+" set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+if has("patch-8.1.1564")
+  " Recently vim can merge signcolumn and number column into one
+  set signcolumn=number
+else
+  set signcolumn=yes
+endif
+
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Make <CR> auto-select the first completion item and notify coc.nvim to
+" format on enter, <cr> could be remapped by other vim plugin
+inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 
-" Key bindings
-augroup haskellStylish
-  au!
-  " Just hindent
-  au FileType haskell nnoremap <leader>hi :Hindent<CR>
-  " Just stylish-haskell
-  au FileType haskell nnoremap <leader>hs :call HaskellFormat('stylish')<CR>
-  " First hindent, then stylish-haskell
-  au FileType haskell nnoremap <leader>hf :call HaskellFormat('both')<CR>
-augroup END
+" Highlight the symbol and its references when holding the cursor.
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" ----- Haskell ALE setup -----
-" let g:ale_linters.haskell = ['stack-ghc-mod', 'hlint']
-" ALE setup
-let g:ale_haskell_hlint_executable = 'hlint'
-let g:ale_haskell_ghc_mod_executable = 'ghc-mod'
-" ----- parsonsmatt/intero-neovim -----
+" Symbol renaming.
+nmap <leader>rn <Plug>(coc-rename)
 
-" Prefer starting Intero manually (faster startup times)
-let g:intero_start_immediately = 0
-" Use ALE (works even when not using Intero)
-let g:intero_use_neomake = 0
+" Formatting selected code.
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
 
-augroup interoMaps
-  au!
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder.
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
 
-  au FileType haskell nnoremap <silent> <leader>io :InteroOpen<CR>
-  au FileType haskell nnoremap <silent> <leader>iov :InteroOpen<CR><C-W>H
-  au FileType haskell nnoremap <silent> <leader>ih :InteroHide<CR>
-  au FileType haskell nnoremap <silent> <leader>is :InteroStart<CR>
-  au FileType haskell nnoremap <silent> <leader>ik :InteroKill<CR>
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
 
-  au FileType haskell nnoremap <silent> <leader>wr :w \| :InteroReload<CR>
-  au FileType haskell nnoremap <silent> <leader>il :InteroLoadCurrentModule<CR>
-  au FileType haskell nnoremap <silent> <leader>if :InteroLoadCurrentFile<CR>
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
 
-  au FileType haskell map <leader>t <Plug>InteroGenericType
-  au FileType haskell map <leader>T <Plug>InteroType
-  au FileType haskell nnoremap <silent> <leader>it :InteroTypeInsert<CR>
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server.
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
 
-  au FileType haskell nnoremap <silent> <leader>jd :InteroGoToDef<CR>
-  au FileType haskell nnoremap <silent> <leader>iu :InteroUses<CR>
-  au FileType haskell nnoremap <leader>ist :InteroSetTargets<SPACE>
-augroup END
-let g:ale_fixers = {
-            \ 'kotlin': ['ktlint']
-            \}
-let g:ale_kotlin_ktlint_executable = 'ktlint'
-let g:ale_linters = {
-            \ 'haskell':  ['stack-ghc-mod', 'hlint']
-            \}
+" Remap <C-f> and <C-b> for scroll float windows/popups.
+" Note coc#float#scroll works on neovim >= 0.4.0 or vim >= 8.2.0750
+nnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+nnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+inoremap <nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+inoremap <nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
 
-let g:github_dashboard = { 'username': 'jmeekhof', 'password': $GITHUB_TOKEN }
+" NeoVim-only mapping for visual mode scroll
+" Useful on signatureHelp after jump placeholder of snippet expansion
+if has('nvim')
+  vnoremap <nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#nvim_scroll(1, 1) : "\<C-f>"
+  vnoremap <nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#nvim_scroll(0, 1) : "\<C-b>"
+endif
 
-" Profile for GHE at work
-let g:github_dashboard#work = {
-    \ 'username': 'jmeekhof',
-    \ 'password': $GHE_TOKEN,
-    \ 'api_endpoint': $GHE_API,
-    \ 'web_endpoint': $GHE_WEB
-    \ }
+" Use CTRL-S for selections ranges.
+" Requires 'textDocument/selectionRange' support of language server.
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer.
+command! -nargs=0 Format :call CocAction('format')
+
+" Add `:Fold` command to fold current buffer.
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer.
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support.
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline.
+" set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics.
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions.
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands.
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document.
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols.
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list.
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
